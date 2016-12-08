@@ -9,7 +9,7 @@ module ULID
   private TIME_LEN = 10
   private RANDOM_LEN = 16
 
-  # Generate ULID
+  # Generate a ULID
   #
   # ```
   # ULID.generate
