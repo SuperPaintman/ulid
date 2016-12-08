@@ -46,6 +46,10 @@ dependencies:
 ## Usage
 
 ```crystal
+require "ulid"
+
+ULID.generate
+# => "01B3EAF48P97R8MP9WS6MHDTZ3"
 ```
 
 
