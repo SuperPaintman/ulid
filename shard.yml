@@ -1,0 +1,10 @@
+name: ulid
+version: 0.1.0
+
+authors:
+  - SuperPaintman <SuperPaintmanDeveloper@gmail.com>
+
+description: |
+  Universally Unique Lexicographically Sortable Identifier (ULID) in Crystal
+
+license: MIT

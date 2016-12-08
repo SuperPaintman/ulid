@@ -1,0 +1,7 @@
+language: crystal
+
+script: crystal spec --verbose
+
+branches:
+  except:
+    - gh-pages
