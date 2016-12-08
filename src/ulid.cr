@@ -1,5 +1,3 @@
-require "secure_random"
-
 require "./ulid/*"
 
 module ULID
