@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="github.com/SuperPaintman/ulid">
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="js/doc.js"></script>
+  <title>README - github.com/SuperPaintman/ulid</title>
+</head>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li class="current"><a href="index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class=" " data-id="github.com/SuperPaintman/ulid/ULID" data-name="ulid">
+      <a href="ULID.html">ULID</a>
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<h1>ULID</h1>
+
+<p>[![Linux Build][travis-image]][travis-url]
+[![Shards version][shards-image]][shards-url]</p>
+
+<p>A <strong>Crystal</strong> port of [alizain/ulid][origin-lib-url].</p>
+
+<p>![Logo][logo-image]</p>
+
+<h2>Universally Unique Lexicographically Sortable Identifier</h2>
+
+<p>UUID can be suboptimal for many uses-cases because:</p>
+
+<ul><li>It isn't the most character efficient way of encoding 128 bits of randomness</li><li>The string format itself is apparently based on the original MAC & time version (UUIDv1 from Wikipedia)</li><li>It provides no other information than randomness</li></ul>
+
+<p>Instead, herein is proposed ULID:</p>
+
+<ul><li>128-bit compatibility with UUID</li><li>1.21e+24 unique ULIDs per millisecond</li><li>Lexicographically sortable!</li><li>Canonically encoded as a 26 character string, as opposed to the 36 character UUID</li><li>Uses Crockford's base32 for better efficiency and readability (5 bits per character)</li><li>Case insensitive</li><li>No special characters (URL safe)</li></ul>
+
+<hr/><h2>Installation</h2>
+
+<p>Add this to your application's <code>shard.yml</code>:</p>
+
+<pre><code class='language-yaml'>dependencies:
+  ulid:
+    github: SuperPaintman/ulid</code></pre>
+
+<hr/><h2>Usage</h2>
+
+<pre><code class='language-crystal'><span class="k">require</span> <span class="s">&quot;ulid&quot;</span>
+
+<span class="t">ULID</span>.generate
+<span class="c"># &#61;&gt; &quot;01B3EAF48P97R8MP9WS6MHDTZ3&quot;</span></code></pre>
+
+<hr/><h2>Specification</h2>
+
+<p>Below is the current specification of ULID as implemented in this repository.</p>
+
+<h3>Components</h3>
+
+<p><strong>Timestamp</strong></p>
+
+<ul><li>48 bit integer</li><li>UNIX-time in milliseconds</li><li>Won't run out of space till the year 10895 AD.</li></ul>
+
+<p><strong>Randomness</strong></p>
+
+<ul><li>80 bits</li><li>Cryptographically secure source of randomness, if possible</li></ul>
+
+<h3>Sorting</h3>
+
+<p>The left-most character must be sorted first, and the right-most character
+sorted last (lexical order). The default ASCII character set must be used.
+Within the same millisecond, sort order is not guaranteed</p>
+
+<h3>Encoding</h3>
+
+<p>Crockford's Base32 is used as shown. This alphabet excludes the letters I, L, O,
+and U to avoid confusion and abuse.</p>
+
+<pre><code></code></pre>
+
+<h3>Binary Layout and Byte Order</h3>
+
+<p>The components are encoded as 16 octets. Each component is encoded with the Most
+Significant Byte first (network byte order).</p>
+
+<pre><code><span class="n">0</span>                   <span class="n">1</span>                   <span class="n">2</span>                   <span class="n">3</span>
+ <span class="n">0</span> <span class="n">1</span> <span class="n">2</span> <span class="n">3</span> <span class="n">4</span> <span class="n">5</span> <span class="n">6</span> <span class="n">7</span> <span class="n">8</span> <span class="n">9</span> <span class="n">0</span> <span class="n">1</span> <span class="n">2</span> <span class="n">3</span> <span class="n">4</span> <span class="n">5</span> <span class="n">6</span> <span class="n">7</span> <span class="n">8</span> <span class="n">9</span> <span class="n">0</span> <span class="n">1</span> <span class="n">2</span> <span class="n">3</span> <span class="n">4</span> <span class="n">5</span> <span class="n">6</span> <span class="n">7</span> <span class="n">8</span> <span class="n">9</span> <span class="n">0</span> <span class="n">1</span>
+<span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span>
+<span class="o">|</span>                      <span class="n">32_</span>bit_uint_time_low                     <span class="o">|</span>
+<span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span>
+<span class="o">|</span>     <span class="n">16_</span>bit_uint_time_high     <span class="o">|</span>       <span class="n">16_</span>bit_uint_random      <span class="o">|</span>
+<span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span>
+<span class="o">|</span>                       <span class="n">32_</span>bit_uint_random                      <span class="o">|</span>
+<span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span>
+<span class="o">|</span>                       <span class="n">32_</span>bit_uint_random                      <span class="o">|</span>
+<span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span><span class="o">-</span><span class="o">+</span></code></pre>
+
+<h3>String Representation</h3>
+
+<pre><code> </code></pre>
+
+<hr/><h2>Test</h2>
+
+<pre><code class='language-sh'>crystal spec</code></pre>
+
+<hr/><h2>Contributing</h2>
+
+<ol><li>Fork it (&lt;https://github.com/SuperPaintman/ulid/fork>)</li><li>Create your feature branch (<code>git checkout -b feature/<feature_name></code>)</li><li>Commit your changes (<code>git commit -am 'Added some feature'</code>)</li><li>Push to the branch (<code>git push origin feature/<feature_name></code>)</li><li>Create a new Pull Request</li></ol>
+
+<hr/><h2>Contributors</h2>
+
+<ul><li><a href="https://github.com/SuperPaintman" target="_blank">SuperPaintman</a> SuperPaintman - creator, maintainer</li></ul>
+
+<hr/><h2>API</h2>
+
+<p>[Docs][docs-url]</p>
+
+<hr/><h2>Changelog</h2>
+
+<p>[Changelog][changelog-url]</p>
+
+<hr/><h2>License</h2>
+
+<p>[MIT][license-url]</p>
+
+<p>[license-url]: LICENSE
+[changelog-url]: CHANGELOG.md
+[docs-url]: https://superpaintman.github.io/ulid/
+[logo-image]: README/logo.png
+[origin-lib-url]: https://github.com/alizain/ulid
+[travis-image]: https://img.shields.io/travis/SuperPaintman/ulid/master.svg?label=linux
+[travis-url]: https://travis-ci.org/SuperPaintman/ulid
+[shards-image]: https://img.shields.io/github/tag/superpaintman/ulid.svg?label=shards
+[shards-url]: https://github.com/superpaintman/ulid</p>
+
+
+</div>
+</body>
+</html>
