@@ -6,13 +6,13 @@ module ULID
   extend self
 
   # Crockford's Base32
-  private ENCODING      = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
-  private ENCODING_LEN  = ENCODING.size
-  private TIME_LEN      = 10
-  private RANDOM_LEN    = 16
+  private ENCODING = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+  private ENCODING_LEN = ENCODING.size
+  private TIME_LEN = 10
+  private RANDOM_LEN = 16
 
   # Generate ULID
-  # 
+  #
   # ```
   # ULID.generate
   # # => "01B3EAF48P97R8MP9WS6MHDTZ3"
