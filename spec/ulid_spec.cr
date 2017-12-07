@@ -46,5 +46,15 @@ describe ULID do
         (ulid_2 > ulid_1).should be_true
       end
     end
+
+    it "should be seedable" do
+      1000.times do
+        ulid_1 = ULID.generate
+        sleep 1.millisecond
+        ulid_2 = ULID.generate(Time.now - 1.second)
+
+        (ulid_2 < ulid_1).should be_true
+      end
+    end
   end
 end
