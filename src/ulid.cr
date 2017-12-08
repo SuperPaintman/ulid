@@ -4,10 +4,10 @@ module ULID
   extend self
 
   # Crockford's Base32
-  private ENCODING = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+  private ENCODING     = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
   private ENCODING_LEN = ENCODING.size
-  private TIME_LEN = 10
-  private RANDOM_LEN = 16
+  private TIME_LEN     = 10
+  private RANDOM_LEN   = 16
 
   # Generate a ULID
   #
@@ -15,8 +15,8 @@ module ULID
   # ULID.generate
   # # => "01B3EAF48P97R8MP9WS6MHDTZ3"
   # ```
-  def generate : String
-    encode_time(Time.now, TIME_LEN) + encode_random(RANDOM_LEN)
+  def generate(seed_time : Time = Time.now) : String
+    encode_time(seed_time, TIME_LEN) + encode_random(RANDOM_LEN)
   end
 
   private def encode_time(now : Time, len : Int32) : String
