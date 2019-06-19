@@ -20,7 +20,7 @@ module ULID
   end
 
   private def encode_time(now : Time, len : Int32) : String
-    ms = now.epoch_ms
+    ms = now.to_unix_ms
 
     String.build do |io|
       len.times do |i|
