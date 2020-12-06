@@ -58,7 +58,7 @@ ULID.generate
 You can also input a seed time which will consistently give you the same string for the time component. This is useful for migrating to ulid.
 
 ```crystal
-ULID.generate Time.now + 5.second
+ULID.generate Time.utc + 5.second
 # => "01ARYZ6S41TSV4RRFFQ69G5FAV"
 ```
 
