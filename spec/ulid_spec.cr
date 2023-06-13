@@ -1,5 +1,8 @@
 require "./spec_helper"
 
+
+puts ULID.generate
+
 describe ULID do
   describe ".generate : String" do
     it "should not raise an error" do
@@ -51,7 +54,7 @@ describe ULID do
       1000.times do
         ulid_1 = ULID.generate
         sleep 1.millisecond
-        ulid_2 = ULID.generate(Time.now - 1.second)
+        ulid_2 = ULID.generate(Time.utc - 1.second)
 
         (ulid_2 < ulid_1).should be_true
       end
